@@ -1,6 +1,9 @@
 package controller;
 
 import com.mkyong.model.UploadModel;
+
+import a.incityventure.com.loopdigitalhotel.DTO.HotelsInfo;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -9,6 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -82,9 +88,17 @@ public class RestUploadController {
                 + uploadedFileName, HttpStatus.OK);
 
     }
+    
+    @RequestMapping(value = "/hotelsinfo", method = RequestMethod.POST)
+    public ResponseEntity < String > persistPerson(@RequestBody  HotelsInfo info) {
+        if (info.getHotelinfo().size() == 0) {
+            return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT).build();
+        }
+        return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).build();
+    }
 
     // maps html form to a Model
-    @PostMapping("/api/upload/multi/model")
+    @PostMapping("/newhotels")
     public ResponseEntity<?> multiUploadFileModel(@ModelAttribute UploadModel model) {
 
         logger.debug("Multiple file upload! With UploadModel");
